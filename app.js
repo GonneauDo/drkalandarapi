@@ -35,6 +35,12 @@ app.use(function (req, res, next) {
 });
 
 
+app.get('/', function(req,res) {
+  res.setHeader('Content-Type', 'application/html');
+  res.send("Welcome to the Dr Kal Andar's API");
+});
+
+
 app.get('/list', function(req,res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(req.session.EventList.getAll());
