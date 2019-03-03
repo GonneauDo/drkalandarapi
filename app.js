@@ -1,50 +1,77 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const calendar = require('./calendar');
+const EventList = calendar.EventList;
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const express = require('express');
+const cors = require('cors');
 
-/*
-une route pour récupérer un evenement
-une route pour récupérer la liste des evenements
-une route pour ajouter un evenement
-une route pour supprimer un evenement
-une route pour créer un compte
-une route pour se connecter
-*/
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const urlEncodedParser = bodyParser.urlencoded({extended: false});
 
-var app = express();
+const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({credentials: true, origin: true}));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.options('*', cors());
 
-// catch 404 and forward to error handler
+app.use(session({
+  secret: 'token',
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.use(function(req, res, next) {
-  next(createError(404));
+  next();
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use(function (req, res, next) {
+  if(!req.session.EventList) {
+    req.session.EventList = new EventList();
+  }
+  Object.setPrototypeOf(req.session.EventList,EventList.prototype);
+  next();
 });
 
-module.exports = app;
+
+app.get('/list', function(req,res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(req.session.EventList.getAll());
+});
+
+
+app.get('/list/:date', function(req,res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(req.session.EventList.getEventByDate(req.params.date));
+});
+
+
+app.post('/add',urlEncodedParser,function(req,res) {
+  let nom = req.body.nom;
+  let description = req.body.description;
+  let date = req.body.date;
+  res.setHeader('Content-Type', 'application/json');
+  req.session.EventList.add(nom,description, date);
+  res.send(true);
+});
+
+
+app.get('/getEvent/:id', function(req,res) {
+  let event = req.session.EventList.getEvent(req.params.id);
+  res.setHeader('Content-Type', 'application/json');
+  res.send(event);
+});
+
+
+app.post('/delete/',urlEncodedParser,function(req,res) {
+  let id = req.body.id;
+  let result = req.session.EventList.delete(id);
+  res.setHeader('Content-Type', 'application/json');
+  res.send(result);
+});
+
+
+app.listen(3000, function() {
+  console.log("Dr Kal Andar's API started!");
+});
