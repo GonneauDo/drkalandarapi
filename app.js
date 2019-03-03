@@ -36,7 +36,7 @@ app.use(function (req, res, next) {
 
 
 app.get('/', function(req,res) {
-  res.setHeader('Content-Type', 'application/html');
+  res.setHeader('Content-Type', 'text/plain');
   res.send("Welcome to the Dr Kal Andar's API");
 });
 
