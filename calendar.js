@@ -75,5 +75,5 @@ class Event  {
 
 module.exports = {
     EventList : EventList,
-    Event : event
+    Event : Event
 };

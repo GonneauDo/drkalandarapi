@@ -15,5 +15,18 @@
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11"
-  }
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/GonneauDo/projetl3nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/GonneauDo/projetl3nodejs/issues"
+  },
+  "homepage": "https://gitlab.com/GonneauDo/projetl3nodejs#readme",
+  "description": ""
 }

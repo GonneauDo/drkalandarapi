@@ -75,3 +75,6 @@ app.post('/delete/',urlEncodedParser,function(req,res) {
 app.listen(3000, function() {
   console.log("Dr Kal Andar's API started!");
 });
+
+
+module.exports = app;
