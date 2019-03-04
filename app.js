@@ -64,7 +64,7 @@ app.post('/add',urlEncodedParser,function(req,res) {
 
 
 app.get('/getEvent/:id', function(req,res) {
-  let event = req.session.EventList.getAll();//Event(req.params.id);
+  let event = req.session.EventList.getEvent(req.params.id);
   res.setHeader('Content-Type', 'application/json');
   res.send(event);
 });

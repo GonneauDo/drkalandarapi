@@ -11,11 +11,11 @@ class EventList {
 
 
     getEvent(id) {
-        let index = this.getIndexOf(id);
-        if(index === -1) {
-            return false;
+        this.list.forEach(event){
+            if(event.id == id)
+                return event
         }
-        return this.list[index];
+        return false
     }
 
 
