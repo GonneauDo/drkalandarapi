@@ -49,7 +49,7 @@ app.get('/list', function(req,res) {
 
 app.get('/list/:date', function(req,res) {
   res.setHeader('Content-Type', 'application/json');
-  res.send(req.session.EventList.getEventByDate(req.params.date));
+  res.send(req.session.EventList.getEventByDate(req.query.date));
 });
 
 
@@ -64,7 +64,7 @@ app.post('/add',urlEncodedParser,function(req,res) {
 
 
 app.get('/getEvent/:id', function(req,res) {
-  let event = req.session.EventList.getEvent(req.params.id);
+  let event = req.session.EventList.getEvent(req.query.id);
   res.setHeader('Content-Type', 'application/json');
   res.send(event);
 });
