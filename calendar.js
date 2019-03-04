@@ -12,7 +12,7 @@ class EventList {
 
     getEvent(id) {
         this.list.forEach(event => {
-            if(event.id == id)
+            if(event.id === id)
                 return event
         })
         return false
