@@ -11,11 +11,13 @@ class EventList {
 
 
     getEvent(id) {
+        let theEvent
         this.list.forEach(event => {
-            if(event.id === id)
-                return event
+            console.log(id == event.id);
+            if(id == event.id)
+                theEvent = event
         })
-        return false
+        return theEvent
     }
 
 
